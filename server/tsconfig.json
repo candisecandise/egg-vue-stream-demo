@@ -1,0 +1,22 @@
+{
+  "extends": "@eggjs/tsconfig",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "declaration": false,
+    "paths": {
+      "@/module/*": ["app/module/*"]
+    },
+    "baseUrl": ".",
+    
+  },
+  "include": [
+    "app/**/*.ts",
+    "config/**/*.ts",
+    "app.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
