@@ -24,7 +24,7 @@ export default class HomeController extends Controller {
     </div>`);
     stream.write(`
       <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-      <script type="module">
+      <script type="module" async>
         // 创建 Vue 实例
         new Vue({
             el: '#app', // 指定挂载点
@@ -113,12 +113,12 @@ export default class HomeController extends Controller {
     // 引入主脚本
     const manifestPath = path.resolve(
       __dirname,
-      '../public/dist-es/.vite/manifest.json'
+      '../public/dist/.vite/manifest.json'
     );
     const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
     const entryKey = 'index.html';
     const entryFile = manifest[entryKey]?.file;
-    const entryLoadScript = `<script type="module" crossorigin src="dist-es/${entryFile}"></script>`;
+    const entryLoadScript = `<script type="module" async crossorigin src="dist/${entryFile}"></script>`;
 
     stream.write(entryLoadScript);
 
