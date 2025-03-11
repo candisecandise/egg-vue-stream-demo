@@ -1,5 +1,6 @@
 import { Controller } from 'egg';
-import { PassThrough } from 'stream';
+import { Readable } from 'stream';
+// import { delay } from '../utils';
 
 export default class Simple extends Controller {
 
@@ -7,20 +8,22 @@ export default class Simple extends Controller {
     const { ctx } = this;
     // 设置响应类型为 HTML
     ctx.type = 'html';
-    const stream = new PassThrough();
 
-    // 将 PassThrough 流设置为 HTTP 响应体
+    const stream = new Readable({
+      read() {}, // 这是一个必须的方法，即使是空的
+    });
+
     ctx.body = stream;
 
-    stream.write('<!DOCTYPE html><html><head><title>Streamed Page</title></head><body>');
+    stream.push('<!DOCTYPE html><html><head><title>Streamed Page</title></head><body>');
 
-    stream.write(`<div id='app'>
+    stream.push(`<div id='app'>
         <!-- 显示 count -->
         <p>{{ count }}</p>
         <!-- 点击按钮时增加 count -->
         <button @click="increment">Increment</button>
     </div>`);
-    stream.write(`
+    stream.push(`
       <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
       <script type="module" async>
         // 创建 Vue 实例
@@ -41,20 +44,22 @@ export default class Simple extends Controller {
 
 
     setTimeout(() => {
-      stream.write('<h1>Hello, this is a streamed response</h1>');
+      stream.push('<h1>Hello, this is a streamed response</h1>');
     }, 2000); // 2秒后发送页面内容和 JavaScript 标签
 
     setTimeout(() => {
-      stream.write('<h1>Hello, this is a streamed response 2</h1>');
+      stream.push('<h1>Hello, this is a streamed response 2</h1>');
     }, 3000); // 3秒后发送更多页面内容
 
     setTimeout(() => {
-      stream.write('<h1>Hello, this is a streamed response 3</h1>');
+      stream.push('<h1>Hello, this is a streamed response 3</h1>');
     }, 4000); // 4秒后继续发送页面内容
 
     setTimeout(() => {
-      stream.write('</body></html>');
-      stream.end(); // 结束流
+      stream.push('</body></html>');
     }, 5000); // 5秒后发送 HTML 尾部并结束流
+
+    // await 会阻塞
+    // await delay(5000);
   }
 }

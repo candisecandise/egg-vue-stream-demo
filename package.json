@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "cd server && pnpm install && cd ../client && pnpm install",
-    "stream": "cd client && pnpm run build && cd ../server && pnpm run dev"
+    "build": "cd client && pnpm run build",
+    "dev": " cd server && pnpm run dev"
   },
   "keywords": [],
   "author": "",
