@@ -1,7 +1,8 @@
 const http = require('http');
 const { Readable } = require('stream');
+const { delay } = require('./utils');
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   // 设置响应头
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   
@@ -24,18 +25,26 @@ const server = http.createServer((req, res) => {
   `);
   
   // 模拟数据流式输出
-  let count = 0;
-  const interval = setInterval(() => {
-    if (count >= 5) {
-      clearInterval(interval);
-      readable.push('</body></html>');
-      readable.push(null); // 结束流
-      return;
-    }
+  // let count = 0;
+  // const interval = setInterval(() => {
+  //   if (count >= 5) {
+  //     clearInterval(interval);
+  //     readable.push('</body></html>');
+  //     readable.push(null); // 结束流
+  //     return;
+  //   }
     
-    readable.push(`<div>这是第 ${count + 1} 条数据</div>`);
-    count++;
-  }, 1000);
+  //   readable.push(`<div>这是第 ${count + 1} 条数据</div>`);
+  //   count++;
+  // }, 1000);
+
+  await delay(2000);
+  readable.push(`<div>这是第 1 条数据</div>`);
+  await delay(2000);
+  readable.push(`<div>这是第 2 条数据</div>`);
+  await delay(2000);
+  readable.push(`<div>这是第 3 条数据</div>`);
+  readable.push(null);
 });
 
 server.listen(3000, () => {

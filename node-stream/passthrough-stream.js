@@ -1,5 +1,6 @@
 const http = require('http');
 const { PassThrough } = require('stream');
+const { delay } = require('./utils');
 
 const server = http.createServer(async (req, res) => {
   // 设置响应头
@@ -18,18 +19,25 @@ const server = http.createServer(async (req, res) => {
     <body>
   `);
 
-  let count = 0;
-  const interval = setInterval(() => {
-    if (count >= 5) {
-      clearInterval(interval);
-      stream.end('</body></html>');
-      return;
-    }
+  // let count = 0;
+  // const interval = setInterval(() => {
+  //   if (count >= 5) {
+  //     clearInterval(interval);
+  //     stream.end('</body></html>');
+  //     return;
+  //   }
     
-    stream.write(`<div>这是第 ${count + 1} 条数据</div>`);
-    count++;
-  }, 1000);
+  //   stream.write(`<div>这是第 ${count + 1} 条数据</div>`);
+  //   count++;
+  // }, 1000);
 
+  await delay(2000);
+  stream.write(`<div>这是第 1 条数据</div>`);
+  await delay(2000);
+  stream.write(`<div>这是第 2 条数据</div>`);
+  await delay(2000);
+  stream.write(`<div>这是第 3 条数据</div>`);
+  stream.end('</body></html>');
 });
 
 server.listen(3000, () => {

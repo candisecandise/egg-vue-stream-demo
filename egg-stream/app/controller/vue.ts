@@ -2,16 +2,13 @@ import { Controller } from 'egg';
 import { PassThrough } from 'stream';
 import path from 'path';
 import fs from 'fs';
-const { Writable } = require('stream');
 
 export default class Vue extends Controller {
 
   async prod() {
     const { ctx } = this;
     ctx.type = 'html';
-    // const stream = new PassThrough();
-
-    const stream = new Writable();
+    const stream = new PassThrough();
     ctx.body = stream;
 
     stream.write('<!DOCTYPE html><html><head><title>Streamed Page</title></head><body>');
