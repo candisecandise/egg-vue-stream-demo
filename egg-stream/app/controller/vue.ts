@@ -2,6 +2,7 @@ import { Controller } from 'egg';
 import { PassThrough } from 'stream';
 import path from 'path';
 import fs from 'fs';
+// import { delay } from '../utils';
 
 export default class Vue extends Controller {
 
@@ -67,7 +68,6 @@ export default class Vue extends Controller {
 
     stream.write(entryLoadScript);
 
-    // 注入获取的数据
     setTimeout(() => {
       stream.write('<h1>Hello, this is a streamed response</h1>');
     }, 2000); // 2秒后发送页面内容和 JavaScript 标签
